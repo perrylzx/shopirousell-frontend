@@ -7,7 +7,10 @@ import CompaniesSection from "./components/CompaniesSection";
 import FooterSection from "./components/FooterSection";
 
 const StyledMain = styled.main`
-  font-family: "Helvetica", "Arial", sans-serif;
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
+  align-items: center;
 `;
 
 export default function Home() {
