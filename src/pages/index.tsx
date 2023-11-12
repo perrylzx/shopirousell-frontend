@@ -1,33 +1,32 @@
-import Head from "next/head";
 import styled from "styled-components";
-import HeaderSection from "./components/HeaderSection";
-import AboutMeSection from "./components/AboutMeSection";
-import PortfolioSection from "./components/PortfolioSection";
-import CompaniesSection from "./components/CompaniesSection";
-import FooterSection from "./components/FooterSection";
+import { useProductsEffect } from "@/effects/useProductsEffect";
+import { Button } from "antd";
+import ProductCard from "./components/ProductCard";
 
 const StyledMain = styled.main`
-  display: flex;
-  flex-direction: column;
   font-family: sans-serif;
-  align-items: center;
 `;
 
+const ProductGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 1rem;
+`;
 export default function Home() {
+  const { products } = useProductsEffect();
+
   return (
-    <>
-      <Head>
-        <title>Perry&apos;s Portfolio</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <StyledMain>
-        <HeaderSection />
-        <AboutMeSection />
-        <PortfolioSection />
-        <CompaniesSection />
-        <FooterSection />
-      </StyledMain>
-    </>
+    <StyledMain>
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <h1>Products</h1>
+        {products && (
+          <ProductGrid>
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </ProductGrid>
+        )}
+      </div>
+    </StyledMain>
   );
 }
