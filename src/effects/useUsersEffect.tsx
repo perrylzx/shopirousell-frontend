@@ -12,19 +12,22 @@ export const useUsersEffect = () => {
     "/api/users",
     async (key) => {
       if (!firebaseUser) {
-        return undefined;
+        return null;
       }
       const res = await axios.get(`${key}/${firebaseUser?.uid}`);
       return res.data;
     }
   );
-  onAuthStateChanged(firebase.auth, (fireUser) => {
-    if (fireUser) {
-      setFirebaseUser(fireUser);
-    } else {
-      setFirebaseUser(null);
-    }
-  });
+
+  useEffect(() => {
+    onAuthStateChanged(firebase.auth, (fireUser) => {
+      if (fireUser) {
+        setFirebaseUser(fireUser);
+      } else {
+        setFirebaseUser(null);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     async function createDBUser(uid: string) {
@@ -34,7 +37,7 @@ export const useUsersEffect = () => {
     if (firebaseUser && !dbUser) {
       createDBUser(firebaseUser.uid);
     }
-  }, [firebaseUser, mutate]);
+  }, [firebaseUser, mutate, dbUser]);
 
   return { dbUser, firebaseUser, mutate };
 };

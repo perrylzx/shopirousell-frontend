@@ -1,11 +1,11 @@
 import { Button, Form, Input, Modal } from "antd";
 import { createShop } from "@/services/ShopService";
 import { useState } from "react";
-import { User } from "@/types/User";
+import { useUsersEffect } from "@/effects/useUsersEffect";
 
-function CreateShop({ dbUser, mutate }: { dbUser: User; mutate: any }) {
+function CreateShop() {
   const [visible, setVisible] = useState(false);
-
+  const { dbUser, mutate } = useUsersEffect();
   const onFinish = async (values: any) => {
     await createShop({ ...values, userId: dbUser?.id });
     mutate();

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from "react";
@@ -41,39 +42,32 @@ function Layout({ children }: { children: React.ReactNode }) {
           <Button type="primary" href="/sell">
             Sell
           </Button>
-          <Dropdown
-            trigger={["click"]}
-            menu={{
-              items: [
-                ...(firebaseUser
-                  ? [
-                      {
-                        key: "logout",
-                        label: (
-                          <div
-                            onClick={() => {
-                              firebase.signOut();
-                              mutate();
-                            }}
-                          >
-                            Sign out
-                          </div>
-                        ),
-                      },
-                    ]
-                  : [
-                      {
-                        key: "login",
-                        label: (
-                          <div onClick={() => firebase.signIn()}>Sign in</div>
-                        ),
-                      },
-                    ]),
-              ],
-            }}
-          >
-            <Avatar style={{ cursor: "pointer" }} icon={<UserOutlined />} />
-          </Dropdown>
+          {firebaseUser ? (
+            <Dropdown
+              trigger={["click"]}
+              menu={{
+                items: [
+                  {
+                    key: "logout",
+                    label: (
+                      <div
+                        onClick={() => {
+                          firebase.signOut();
+                          mutate();
+                        }}
+                      >
+                        Sign out
+                      </div>
+                    ),
+                  },
+                ],
+              }}
+            >
+              <Avatar style={{ cursor: "pointer" }} icon={<UserOutlined />} />
+            </Dropdown>
+          ) : (
+            <a onClick={() => firebase.signIn()}>Sign in</a>
+          )}
         </Space>
       </Navbar>
       <ContentContainer>{children}</ContentContainer>

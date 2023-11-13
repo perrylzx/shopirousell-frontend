@@ -1,6 +1,5 @@
-import { Button, Form, Input, InputNumber, Row, Select } from "antd";
+import { Button, Form, Input, InputNumber, Select } from "antd";
 import { createProduct } from "@/services/ProductService";
-import { useProductsEffect } from "@/effects/useProductsEffect";
 import { useRouter } from "next/router";
 import { useUsersEffect } from "@/effects/useUsersEffect";
 import firebase from "@/firebase";
@@ -8,7 +7,7 @@ import CreateShopModal from "./CreateShopModal";
 
 function CreateProductForm() {
   const { push } = useRouter();
-  const { dbUser, firebaseUser, mutate } = useUsersEffect();
+  const { dbUser, firebaseUser } = useUsersEffect();
 
   const onFinish = (values: any) => {
     if (!dbUser) {
@@ -51,7 +50,7 @@ function CreateProductForm() {
               </Select>
             </Form.Item>
           )}
-          {dbUser && <CreateShopModal mutate={mutate} dbUser={dbUser} />}
+          {dbUser && <CreateShopModal />}
         </div>
         <Form.Item>
           <Button htmlType="submit">Save</Button>
