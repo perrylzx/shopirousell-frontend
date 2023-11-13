@@ -1,10 +1,12 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from "react";
 import styled from "styled-components";
-import type { MenuProps } from "antd";
-import { Button, Menu } from "antd";
-import Image from "next/image";
-import { HomeOutlined } from "@ant-design/icons";
+import { Avatar, Button, Dropdown, Space } from "antd";
+import { HomeOutlined, UserOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import firebase from "@/firebase";
+import { useUsersEffect } from "@/effects/useUsersEffect";
 
 const ContentContainer = styled.div`
   padding: 24px 24px;
@@ -28,15 +30,44 @@ const Navbar = styled.div`
 `;
 
 function Layout({ children }: { children: React.ReactNode }) {
+  const { firebaseUser } = useUsersEffect();
   return (
     <>
       <Navbar>
         <Link style={{ display: "flex" }} href="/">
           <HomeOutlined />
         </Link>
-        <Button type="primary" href="/sell">
-          Sell
-        </Button>
+        <Space>
+          <Button type="primary" href="/sell">
+            Sell
+          </Button>
+          <Dropdown
+            trigger={["click"]}
+            menu={{
+              items: [
+                ...(firebaseUser
+                  ? [
+                      {
+                        key: "logout",
+                        label: (
+                          <div onClick={() => firebase.signOut()}>Sign out</div>
+                        ),
+                      },
+                    ]
+                  : [
+                      {
+                        key: "login",
+                        label: (
+                          <div onClick={() => firebase.signIn()}>Sign in</div>
+                        ),
+                      },
+                    ]),
+              ],
+            }}
+          >
+            <Avatar style={{ cursor: "pointer" }} icon={<UserOutlined />} />
+          </Dropdown>
+        </Space>
       </Navbar>
       <ContentContainer>{children}</ContentContainer>
     </>

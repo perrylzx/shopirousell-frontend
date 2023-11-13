@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { Button, Modal, Form, Input } from "antd";
+import { Button, Form, Input } from "antd";
 import { createShop } from "@/services/ShopService";
+import { useUsersEffect } from "@/effects/useUsersEffect";
 
-function CreateShop({ userId }: { userId: string }) {
+function CreateShop() {
+  const { dbUser } = useUsersEffect();
   const onFinish = (values: any) => {
-    createShop({ ...values, userId });
+    createShop({ ...values, userId: dbUser?.id });
   };
 
   return (

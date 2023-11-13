@@ -1,24 +1,20 @@
-import { useState } from "react";
-import {
-  Modal,
-  Button,
-  Form,
-  Input,
-  InputNumber,
-  Dropdown,
-  Select,
-} from "antd";
+import { Button, Form, Input, InputNumber, Select } from "antd";
 import { createProduct } from "@/services/ProductService";
 import { useProductsEffect } from "@/effects/useProductsEffect";
-import { Shop } from "@/types/Shop";
-import { redirect } from "next/navigation";
 import { useRouter } from "next/router";
+import { useUsersEffect } from "@/effects/useUsersEffect";
+import firebase from "@/firebase";
 
-function CreateProductForm({ shops }: { shops: Shop[] }) {
+function CreateProductForm() {
   const { mutate } = useProductsEffect();
   const { push } = useRouter();
+  const { dbUser } = useUsersEffect();
 
   const onFinish = (values: any) => {
+    if (!dbUser) {
+      firebase.signIn();
+      return;
+    }
     createProduct(values);
     mutate();
     push("/");
@@ -42,13 +38,13 @@ function CreateProductForm({ shops }: { shops: Shop[] }) {
           <InputNumber />
         </Form.Item>
         <Form.Item name="shopId" label="Shop" rules={[{ required: true }]}>
-          <Select
-            options={shops.map((shop) => ({
-              key: shop.id,
-              label: shop.name,
-              value: shop.id,
-            }))}
-          />
+          <Select>
+            {dbUser?.shops ? (
+              dbUser.shops.map((shop) => <span key={shop.id}>{shop.name}</span>)
+            ) : (
+              <Button>Create shop</Button>
+            )}
+          </Select>
         </Form.Item>
         <Form.Item>
           <Button htmlType="submit">Save</Button>
