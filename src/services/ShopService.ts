@@ -8,6 +8,7 @@ export const getShopById = async (id: number) => {
 export const createShop = async (shopData: {
   name: string;
   description: string;
+  userId: string;
 }) => {
   const res = await axios.post("/api/shops", shopData);
   return res.data;

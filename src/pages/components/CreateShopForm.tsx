@@ -2,29 +2,14 @@ import { useState } from "react";
 import { Button, Modal, Form, Input } from "antd";
 import { createShop } from "@/services/ShopService";
 
-function CreateShopModal() {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const showModal = () => {
-    setIsOpen(true);
-  };
-
-  const handleOk = () => {
-    setIsOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsOpen(false);
-  };
-
+function CreateShop({ userId }: { userId: string }) {
   const onFinish = (values: any) => {
-    console.log("Received values of form: ", values);
-    createShop(values);
-    setIsOpen(false);
+    createShop({ ...values, userId });
   };
 
   return (
-    <div>
+    <>
+      <h1>Create Shop</h1>
       <Form name="createShopForm" onFinish={onFinish}>
         <Form.Item
           label="Name"
@@ -50,9 +35,12 @@ function CreateShopModal() {
         >
           <Input.TextArea />
         </Form.Item>
+        <Form.Item>
+          <Button htmlType="submit">Save</Button>
+        </Form.Item>
       </Form>
-    </div>
+    </>
   );
 }
 
-export default CreateShopModal;
+export default CreateShop;
