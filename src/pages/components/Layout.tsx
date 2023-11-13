@@ -48,6 +48,10 @@ function Layout({ children }: { children: React.ReactNode }) {
               menu={{
                 items: [
                   {
+                    key: "profile",
+                    label: <a href="/profile">Profile</a>,
+                  },
+                  {
                     key: "logout",
                     label: (
                       <div

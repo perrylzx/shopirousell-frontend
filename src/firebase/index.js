@@ -1,5 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+
 import { getAnalytics } from "firebase/analytics";
 import {
   GoogleAuthProvider,
@@ -31,7 +33,21 @@ const provider = new GoogleAuthProvider();
 const signIn = () =>
   signInWithPopup(auth, provider).then((result) => result.user);
 
+const storage = getStorage();
+
+const uploadProductImage = (file) => {
+  const storageRef = ref(storage, `/images/${file.name}`);
+  return (
+    uploadBytes(storageRef, file)
+      // eslint-disable-next-line arrow-body-style
+      .then((snapshot) => {
+        return getDownloadURL(snapshot.ref);
+      })
+      .then((url) => url)
+  );
+};
+
 const signOut = () => signOutFromFirebase(auth);
 // const analytics = getAnalytics(app);
 
-export default { app, auth, signIn, signOut };
+export default { app, auth, signIn, signOut, uploadProductImage };
