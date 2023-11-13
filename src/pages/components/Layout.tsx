@@ -30,7 +30,7 @@ const Navbar = styled.div`
 `;
 
 function Layout({ children }: { children: React.ReactNode }) {
-  const { firebaseUser } = useUsersEffect();
+  const { firebaseUser, mutate } = useUsersEffect();
   return (
     <>
       <Navbar>
@@ -50,7 +50,14 @@ function Layout({ children }: { children: React.ReactNode }) {
                       {
                         key: "logout",
                         label: (
-                          <div onClick={() => firebase.signOut()}>Sign out</div>
+                          <div
+                            onClick={() => {
+                              firebase.signOut();
+                              mutate();
+                            }}
+                          >
+                            Sign out
+                          </div>
                         ),
                       },
                     ]

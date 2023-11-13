@@ -3,10 +3,21 @@ import React, { useEffect } from "react";
 import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
 import firebase from "@/firebase";
 import { createUser } from "@/services/UserService";
+import useSWR from "swr";
+import axios from "axios";
 
 export const useUsersEffect = () => {
-  const [dbUser, setDbUser] = React.useState<User | null>();
   const [firebaseUser, setFirebaseUser] = React.useState<FirebaseUser | null>();
+  const { data: dbUser, mutate } = useSWR<User, unknown, string>(
+    "/api/users",
+    async (key) => {
+      if (!firebaseUser) {
+        return undefined;
+      }
+      const res = await axios.get(`${key}/${firebaseUser?.uid}`);
+      return res.data;
+    }
+  );
   onAuthStateChanged(firebase.auth, (fireUser) => {
     if (fireUser) {
       setFirebaseUser(fireUser);
@@ -17,13 +28,13 @@ export const useUsersEffect = () => {
 
   useEffect(() => {
     async function createDBUser(uid: string) {
-      const createdUser = await createUser(uid);
-      setDbUser(createdUser);
+      await createUser(uid);
+      mutate();
     }
     if (firebaseUser && !dbUser) {
       createDBUser(firebaseUser.uid);
     }
-  }, [firebaseUser, dbUser]);
+  }, [firebaseUser, mutate]);
 
-  return { dbUser, firebaseUser };
+  return { dbUser, firebaseUser, mutate };
 };

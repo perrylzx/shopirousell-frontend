@@ -1,14 +1,14 @@
-import { Button, Form, Input, InputNumber, Select } from "antd";
+import { Button, Form, Input, InputNumber, Row, Select } from "antd";
 import { createProduct } from "@/services/ProductService";
 import { useProductsEffect } from "@/effects/useProductsEffect";
 import { useRouter } from "next/router";
 import { useUsersEffect } from "@/effects/useUsersEffect";
 import firebase from "@/firebase";
+import CreateShopModal from "./CreateShopModal";
 
 function CreateProductForm() {
-  const { mutate } = useProductsEffect();
   const { push } = useRouter();
-  const { dbUser } = useUsersEffect();
+  const { dbUser, firebaseUser, mutate } = useUsersEffect();
 
   const onFinish = (values: any) => {
     if (!dbUser) {
@@ -16,7 +16,6 @@ function CreateProductForm() {
       return;
     }
     createProduct(values);
-    mutate();
     push("/");
   };
 
@@ -37,15 +36,23 @@ function CreateProductForm() {
         <Form.Item name="price" label="Price" rules={[{ required: true }]}>
           <InputNumber />
         </Form.Item>
-        <Form.Item name="shopId" label="Shop" rules={[{ required: true }]}>
-          <Select>
-            {dbUser?.shops ? (
-              dbUser.shops.map((shop) => <span key={shop.id}>{shop.name}</span>)
-            ) : (
-              <Button>Create shop</Button>
-            )}
-          </Select>
-        </Form.Item>
+        <div style={{ display: "flex", width: "100%" }}>
+          {firebaseUser && dbUser?.shops && (
+            <Form.Item
+              style={{ flexGrow: "1" }}
+              name="shopId"
+              label="Shop"
+              rules={[{ required: true }]}
+            >
+              <Select>
+                {dbUser.shops.map((shop) => (
+                  <span key={shop.id}>{shop.name}</span>
+                ))}
+              </Select>
+            </Form.Item>
+          )}
+          {dbUser && <CreateShopModal mutate={mutate} dbUser={dbUser} />}
+        </div>
         <Form.Item>
           <Button htmlType="submit">Save</Button>
         </Form.Item>
