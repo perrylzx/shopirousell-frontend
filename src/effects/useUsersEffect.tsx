@@ -1,6 +1,10 @@
 import { User } from "@/types/User";
 import React, { useEffect } from "react";
-import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
+import {
+  onAuthStateChanged,
+  User as FirebaseUser,
+  getAdditionalUserInfo,
+} from "firebase/auth";
 import firebase from "@/firebase";
 import { createUser } from "@/services/UserService";
 import useSWR from "swr";
@@ -12,7 +16,7 @@ export const useUsersEffect = () => {
     "/api/users",
     async (key) => {
       if (!firebaseUser) {
-        return null;
+        return undefined;
       }
       const res = await axios.get(`${key}/${firebaseUser?.uid}`);
       return res.data;
@@ -20,24 +24,23 @@ export const useUsersEffect = () => {
   );
 
   useEffect(() => {
-    onAuthStateChanged(firebase.auth, (fireUser) => {
-      if (fireUser) {
-        setFirebaseUser(fireUser);
+    onAuthStateChanged(firebase.auth, (user) => {
+      if (user) {
+        setFirebaseUser(user);
       } else {
         setFirebaseUser(null);
       }
     });
   }, []);
 
-  useEffect(() => {
-    async function createDBUser(uid: string) {
-      await createUser(uid);
+  const signIn = async () => {
+    const userCredential = await firebase.signIn();
+    const additionalUserInfo = getAdditionalUserInfo(userCredential);
+    if (additionalUserInfo?.isNewUser) {
+      await createUser(userCredential.user.uid);
       mutate();
     }
-    if (firebaseUser && !dbUser) {
-      createDBUser(firebaseUser.uid);
-    }
-  }, [firebaseUser, mutate, dbUser]);
+  };
 
-  return { dbUser, firebaseUser, mutate };
+  return { dbUser, firebaseUser, mutate, signIn };
 };

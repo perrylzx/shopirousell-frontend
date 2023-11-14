@@ -31,7 +31,7 @@ const Navbar = styled.div`
 `;
 
 function Layout({ children }: { children: React.ReactNode }) {
-  const { firebaseUser, mutate } = useUsersEffect();
+  const { firebaseUser, mutate, signIn } = useUsersEffect();
   return (
     <>
       <Navbar>
@@ -70,7 +70,7 @@ function Layout({ children }: { children: React.ReactNode }) {
               <Avatar style={{ cursor: "pointer" }} icon={<UserOutlined />} />
             </Dropdown>
           ) : (
-            <a onClick={() => firebase.signIn()}>Sign in</a>
+            <a onClick={() => signIn()}>Sign in</a>
           )}
         </Space>
       </Navbar>

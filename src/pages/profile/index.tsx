@@ -1,14 +1,11 @@
 import { useUsersEffect } from "@/effects/useUsersEffect";
-import { Carousel } from "antd";
-import React from "react";
 import styled from "styled-components";
-import { colors } from "@/styles/globals";
 import ProductCard from "../components/ProductCard";
 
 const ProductsContainer = styled.div`
   display: flex;
   width: 100%;
-  overflow: scroll;
+  overflow: auto;
   padding: 8px 0;
   margin-bottom: 16px;
   gap: 16px;

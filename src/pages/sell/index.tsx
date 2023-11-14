@@ -8,13 +8,14 @@ function SellPage() {
   const { firebaseUser } = useUsersEffect();
   return (
     <>
-      {firebaseUser ? (
-        <CreateProductForm />
-      ) : (
-        <button type="button" onClick={firebase.signIn}>
-          Sign In
-        </button>
-      )}
+      {typeof firebaseUser !== "undefined" &&
+        (firebaseUser ? (
+          <CreateProductForm />
+        ) : (
+          <button type="button" onClick={firebase.signIn}>
+            Sign In
+          </button>
+        ))}
     </>
   );
 }
