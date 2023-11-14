@@ -1,38 +1,64 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is an ecommerce site similar to shopify/carousell. Built with nextjs and typescript, Users are able to create shops and products in each shop. Users are also able to purchase products from other users. 
+The backend repo is named shopirousell-backend, built in nodejs, typescript, express, postgresql and prisma.
 
-## Getting Started
+I created this because carousell is currently getting greedy and charging sellers for literally just categorizing their items and also for fun because i havent done a personal project in a while
 
-First, run the development server:
+## Current features
+- Create shops
+- Create products in shops
+- Landing page currently displays all products
+- Profile page displays shops and their products
+- User authentication with firebase
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## Planned features in no particular order
+1. **Search and Filters:**
+   - Implement a search functionality to help users find specific products or shops easily.
+   - Include filters such as category, price range, location, and more to refine search results.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **User Authentication and Authorization:**
+   - Set up different user roles (buyer, seller, admin) with appropriate permissions for each (maybe?)
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+3. **Reviews and Ratings:**
+   - Allow users to leave reviews and ratings for both products and sellers to build trust within the community.
+   - Consider a system where reviews from verified buyers have more weight.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+4. **Messaging System:**
+   - Integrate a messaging system to facilitate communication between buyers and sellers.
+   - Provide notifications for new messages or important updates.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+5. **Payment Integration:**
+   - Include secure payment gateways to enable users to make transactions directly through the app.
+   - Consider options like PayPal, Stripe, or other popular payment processors.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+6. **Order Management:**
+   - Implement order tracking and management for both buyers and sellers.
+   - Allow users to view their order history, track shipments, and mark orders as complete.
 
-## Learn More
+7. **Wishlist and Favorites:**
+   - Enable users to create wishlists and mark favorite products or shops for easy access.
 
-To learn more about Next.js, take a look at the following resources:
+8. **Promotions and Discounts:**
+   - Introduce a system for sellers to create promotions or discounts for their products.
+   - Implement a section for showcasing ongoing promotions or special offers.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+9. **Analytics and Reporting:**
+   - Provide sellers with analytics on their shop's performance, such as sales trends, popular products, and customer demographics.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+10. **Social Media Integration:**
+    - Allow users to share their favorite products or shops on social media platforms.
+    - Integrate social media logins to simplify the registration process.
 
-## Deploy on Vercel
+11. **Mobile Responsiveness:**
+    - Ensure that your app is mobile-friendly to cater to users who prefer shopping on their smartphones or tablets.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+12. **Localization:**
+    - Implement multi-language support and currency options to make your app accessible to a broader audience.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+13. **Security Measures:**
+    - Prioritize the security of user data and transactions. Use encryption and follow best practices for securing sensitive information.
+
+14. **Notification System:**
+    - Keep users informed with push notifications for new orders, messages, or other relevant updates.
+
+15. **Refund and Return System:**
+    - Create a clear policy for refunds and returns, and implement a system to handle these processes smoothly.
